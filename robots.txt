@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://lauval.github.io/sitemap.xml
