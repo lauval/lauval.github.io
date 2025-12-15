@@ -1,18 +1,16 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Laurent Valentin",
+    "label": "Data Engineer, Aspiring ML Engineer & Researcher",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "LaurentValentin@outlook.com",
+    "url": "https://lauval.github.io/",
+    "summary": "Data infrastructure specialist building enterprise systems from scratch for organisations establishing data capabilities. Combines technical expertise (Python, SQL) with commercial acumen to deliver automated solutions that optimise revenue and operations. Works independently and engages stakeholders from operational to executive level.",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "address": "Victoria",
+      "city": "Victoria",
+      "countryCode": "SC",
+      "region": "Mahe"
     },
     "profiles": [
       {
