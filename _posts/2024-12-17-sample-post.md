@@ -32,7 +32,10 @@ Where:
 
 ## Code Highlighting
 
-We can also display code snippets with syntax highlighting. Here is a Python function that implements a simple vector addition:
+We can also display code snippets with syntax highlighting.
+
+### Option 1: Standard Markdown (Recommended)
+With the latest configuration changes, standard fenced code blocks now support line numbers and proper spacing automatically:
 
 ```python
 import numpy as np
@@ -51,6 +54,27 @@ b = np.array([4, 5, 6])
 result = vector_add(a, b)
 print(f"Result: {result}")
 ```
+
+### Option 2: Liquid Tags
+You can also use Jekyll's native Liquid tags, though they are more verbose:
+
+{% highlight python linenos %}
+import numpy as np
+
+def vector_add(v1, v2):
+    """
+    Adds two numpy arrays element-wise.
+    """
+    if len(v1) != len(v2):
+        raise ValueError("Vectors must be of the same length")
+    return np.add(v1, v2)
+
+# Example usage
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+result = vector_add(a, b)
+print(f"Result: {result}")
+{% endhighlight %}
 
 ## Conclusion
 
