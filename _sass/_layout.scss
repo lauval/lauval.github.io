@@ -8,6 +8,10 @@ body {
   background-color: var(--global-bg-color);
   font-family: 'Work Sans', sans-serif;
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
 
   h1,
   h2,
