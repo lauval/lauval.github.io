@@ -36,10 +36,8 @@ h2 {
   margin-bottom: 1rem;
 }
 
-@media (max-width: 576px) {
-  h1 {
-    font-size: 2.22rem !important;
-  }
+h1 {
+  font-size: clamp(2.2rem, 10vw, 2.5rem);
 }
 
 hr {
@@ -601,13 +599,7 @@ footer.sticky-bottom {
 
   h1 {
     color: var(--global-theme-color);
-    font-size: 5rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .header-bar h1 {
-    font-size: 2.5rem !important;
+    font-size: clamp(2.5rem, 14vw, 5rem);
   }
 }
 
