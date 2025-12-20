@@ -16,7 +16,11 @@ pagination:
     after: 3 # The number of links after the current page
 ---
 
-<div class="post">
+<!-- Neural Network -->
+{% include neural-network.html %}
+<!-- End Neural Network -->
+
+<!-- <div class="post nn-glass"> -->
 
 {% assign blog_name_size = site.blog_name | size %}
 {% assign blog_description_size = site.blog_description | size %}

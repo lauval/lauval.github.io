@@ -1,0 +1,358 @@
+<div id="nn-container" class="neural-network-container">
+    <canvas id="neuralNet"></canvas>
+</div>
+
+<style>
+    .neural-network-container {
+        /* -------------------------------------------------------------------
+           CUSTOMIZE GLASS EFFECT (BLUR BEHIND TEXT)
+           ------------------------------------------------------------------- */
+        --nn-glass-opacity: 0.9;
+        /* 0.0 (Invisible) to 1.0 (Solid) */
+        --nn-glass-blur: 20px;
+        /* 0px (Sharp) to 50px (Very blurry) */
+
+        /* TIP: If the neural network is hard to see, DECREASE --nn-glass-opacity.
+           To disable the glass effect entirely, set both values to 0. */
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: opacity 0.5s ease;
+    }
+
+    [data-theme="dark"] .neural-network-container {
+        --nn-glass-opacity: 0.2;
+    }
+
+    .neural-network-container.nn-inline {
+        position: relative;
+        z-index: 1;
+        pointer-events: auto;
+        opacity: 1;
+        min-height: 400px;
+        background: var(--global-bg-color);
+    }
+
+    #neuralNet {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    [data-theme="dark"] .neural-network-container {
+        opacity: 0.9;
+    }
+
+    /* Glassmorphism / Frosted Glass Utility */
+    .nn-glass {
+        backdrop-filter: blur(var(--nn-glass-blur));
+        -webkit-backdrop-filter: blur(var(--nn-glass-blur));
+        background: rgba(255, 255, 255, var(--nn-glass-opacity));
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        border-radius: 12px;
+        transition: background 0.5s ease, border 0.5s ease;
+    }
+
+    [data-theme="dark"] .nn-glass {
+        background: rgba(30, 30, 46, var(--nn-glass-opacity));
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<script>
+    (function () {
+        const canvas = document.getElementById('neuralNet');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('nn-container');
+
+        let width, height;
+        let network = [];
+        let signals = [];
+        let ambientParticles = [];
+        let frameCount = 0;
+
+        const mouse = { x: -1000, y: -1000, active: false };
+
+        const config = {
+            layers: [4, 6, 6, 3],
+            nodeRadius: 3,
+            accentColor: '#b509ac',
+            particleCount: 50,
+            mouseRadius: 150,
+            maxFPS: 60,
+            // -------------------------------------------------------------------
+            // CUSTOMIZE NETWORK VISIBILITY
+            // -------------------------------------------------------------------
+            visuals: {
+                nodeAlpha: 0.2,       // Opacity of the nodes (dots). Increase to make them clearer.
+                connectionAlpha: 0.1, // Opacity of the lines. Increase to make the grid more visible.
+                particleAlpha: 0.9,    // Opacity of the tiny floating particles in the background.
+                signalAlpha: 0.15,      // Opacity of the "pulses" moving through the net. 1.0 is full color.
+                glowIntensity: 0.1     // How much nodes "glow" when a pulse hits them or mouse is near.
+            },
+            // -------------------------------------------------------------------
+            // CUSTOMIZE ANIMATION SPEED & PACING
+            // -------------------------------------------------------------------
+            pacing: {
+                pulseSpeed: 0.015,     // How fast signals move (0.01 = slow, 0.05 = fast)
+                waveInterval: 350      // Frames between waves (60 = 1 sec, 300 = 5 sec)
+            }
+        };
+
+        function hexToRGBA(hex, alpha) {
+            hex = hex.replace('#', '');
+            if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+            let r = parseInt(hex.slice(0, 2), 16),
+                g = parseInt(hex.slice(2, 4), 16),
+                b = parseInt(hex.slice(4, 6), 16);
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function updateColors() {
+            const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--global-theme-color').trim();
+            if (themeColor) {
+                config.accentColor = themeColor;
+            }
+        }
+
+        class AmbientParticle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2;
+                this.alpha = Math.random() * config.visuals.particleAlpha;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = hexToRGBA(config.accentColor, this.alpha);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Node {
+            constructor(x, y, layer, index) {
+                this.x = x;
+                this.y = y;
+                this.baseX = x;
+                this.baseY = y;
+                this.layer = layer;
+                this.index = index;
+                this.activation = 0;
+                this.targetActivation = 0;
+                this.angle = Math.random() * Math.PI * 2;
+                this.orbitRadius = 3 + Math.random() * 5;
+                this.orbitSpeed = 0.005 + Math.random() * 0.01;
+            }
+            update() {
+                this.angle += this.orbitSpeed;
+
+                const dx = mouse.x - this.baseX;
+                const dy = mouse.y - this.baseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                let offsetX = 0, offsetY = 0;
+
+                if (dist < config.mouseRadius) {
+                    const force = (config.mouseRadius - dist) / config.mouseRadius;
+                    offsetX = (dx / dist) * force * 15;
+                    offsetY = (dy / dist) * force * 15;
+                    this.targetActivation = Math.max(this.targetActivation, force);
+                }
+
+                this.x = this.baseX + Math.cos(this.angle) * this.orbitRadius + offsetX;
+                this.y = this.baseY + Math.sin(this.angle) * this.orbitRadius + offsetY;
+
+                this.activation += (this.targetActivation - this.activation) * 0.1;
+                this.targetActivation *= 0.95;
+                this.activation *= 0.98;
+            }
+            draw() {
+                const alpha = config.visuals.nodeAlpha + this.activation * config.visuals.glowIntensity;
+                const size = config.nodeRadius + this.activation * 3;
+
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+
+                const grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, size * 4);
+                const color = config.accentColor;
+                grad.addColorStop(0, hexToRGBA(color, alpha));
+                grad.addColorStop(1, hexToRGBA(color, 0));
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size * 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = hexToRGBA(color, alpha + 0.1);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+            }
+        }
+
+        class Signal {
+            constructor(fromNode, toNode) {
+                this.from = fromNode;
+                this.to = toNode;
+                this.progress = 0;
+                this.speed = config.pacing.pulseSpeed * (0.8 + Math.random() * 0.4);
+                this.history = [];
+            }
+            update() {
+                this.history.push({ x: this.currX(), y: this.currY() });
+                if (this.history.length > 10) this.history.shift();
+
+                this.progress += this.speed;
+                if (this.progress >= 1) {
+                    this.to.targetActivation = 1;
+                    propagate(this.to);
+                    return true;
+                }
+                return false;
+            }
+            currX() { return this.from.x + (this.to.x - this.from.x) * this.progress; }
+            currY() { return this.from.y + (this.to.y - this.from.y) * this.progress; }
+            draw() {
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+
+                if (this.history.length > 1) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = hexToRGBA(config.accentColor, config.visuals.signalAlpha * 0.5);
+                    ctx.lineWidth = 2;
+                    ctx.moveTo(this.history[0].x, this.history[0].y);
+                    for (let p of this.history) ctx.lineTo(p.x, p.y);
+                    ctx.stroke();
+                }
+
+                const x = this.currX();
+                const y = this.currY();
+                const grad = ctx.createRadialGradient(x, y, 0, x, y, 6);
+                grad.addColorStop(0, '#fff');
+                grad.addColorStop(0.4, config.accentColor);
+                grad.addColorStop(1, hexToRGBA(config.accentColor, 0));
+
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function init() {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            network = [];
+            const layerSpacing = width / (config.layers.length + 1);
+            config.layers.forEach((count, lIdx) => {
+                const layer = [];
+                const layerHeight = height / (count + 1);
+                for (let i = 0; i < count; i++) {
+                    layer.push(new Node(layerSpacing * (lIdx + 1), layerHeight * (i + 1), lIdx, i));
+                }
+                network.push(layer);
+            });
+
+            ambientParticles = [];
+            for (let i = 0; i < config.particleCount; i++) ambientParticles.push(new AmbientParticle());
+        }
+
+        function propagate(node) {
+            const nextLayerIdx = node.layer + 1;
+            if (nextLayerIdx < network.length) {
+                network[nextLayerIdx].forEach(nextNode => {
+                    if (Math.random() > 0.4) signals.push(new Signal(node, nextNode));
+                });
+            }
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < network.length - 1; i++) {
+                network[i].forEach(n1 => {
+                    network[i + 1].forEach(n2 => {
+                        const alpha = config.visuals.connectionAlpha + (n1.activation + n2.activation) * 0.1;
+                        const grad = ctx.createLinearGradient(n1.x, n1.y, n2.x, n2.y);
+                        const color1 = hexToRGBA(config.accentColor, alpha);
+                        const color2 = hexToRGBA(config.accentColor, alpha * 0.5);
+                        grad.addColorStop(0, color1);
+                        grad.addColorStop(1, color2);
+
+                        ctx.strokeStyle = grad;
+                        ctx.lineWidth = 0.5 + (n1.activation + n2.activation) * 1;
+                        ctx.beginPath();
+                        ctx.moveTo(n1.x, n1.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.stroke();
+                    });
+                });
+            }
+        }
+
+        let lastTime = 0;
+        function animate(time) {
+            if (time - lastTime < 1000 / config.maxFPS) {
+                requestAnimationFrame(animate);
+                return;
+            }
+            lastTime = time;
+
+            ctx.clearRect(0, 0, width, height);
+            updateColors();
+
+            ambientParticles.forEach(p => { p.update(); p.draw(); });
+            drawConnections();
+
+            for (let i = signals.length - 1; i >= 0; i--) {
+                if (signals[i].update()) signals.splice(i, 1);
+                else signals[i].draw();
+            }
+
+            network.forEach(layer => layer.forEach(n => { n.update(); n.draw(); }));
+
+            frameCount++;
+            if (frameCount % config.pacing.waveInterval === 0) {
+                network[0].forEach(n => { n.targetActivation = 1; propagate(n); });
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        container.addEventListener('mousemove', e => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+        container.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; mouse.active = false; });
+
+        init();
+        updateColors();
+        requestAnimationFrame(animate);
+    })();
+</script>
