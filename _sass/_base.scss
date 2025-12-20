@@ -38,7 +38,7 @@ h2 {
 
 @media (max-width: 576px) {
   h1 {
-    font-size: 2.2rem;
+    font-size: 2.22rem !important;
   }
 }
 
@@ -602,10 +602,12 @@ footer.sticky-bottom {
   h1 {
     color: var(--global-theme-color);
     font-size: 5rem;
+  }
+}
 
-    @media (max-width: 576px) {
-      font-size: 2.5rem;
-    }
+@media (max-width: 576px) {
+  .header-bar h1 {
+    font-size: 2.5rem !important;
   }
 }
 
@@ -786,7 +788,6 @@ footer.sticky-bottom {
     li {
       margin-bottom: 1rem;
 
-      .preview {}
 
       .abbr {
         margin-bottom: 0.5rem;
