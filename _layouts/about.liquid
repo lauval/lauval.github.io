@@ -15,8 +15,6 @@ layout: default
   </header>
 
   <article>
-    <div class="clearfix">{{ content }}</div>
-
     {% if page.profile %}
       <div class="profile float-{% if page.profile.align == 'left' %}left{% else %}right{% endif %}">
         {% if page.profile.image %}
@@ -39,6 +37,8 @@ layout: default
         {% endif %}
       </div>
     {% endif %}
+
+    <div class="clearfix">{{ content }}</div>
 
     <!-- News -->
     {% if page.announcements and page.announcements.enabled %}

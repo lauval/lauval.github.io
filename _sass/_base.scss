@@ -233,11 +233,37 @@ ul.task-list input[type="checkbox"] {
     }
   }
 
+  @media (min-width: 576px) {
+    width: 30%;
+    margin-left: 1.5rem;
+  }
+
   @media (max-width: 576px) {
     margin: 1.5rem auto !important;
     float: none !important;
     width: 70% !important;
     text-align: center;
+    order: 2; // Move below content on mobile
+  }
+}
+
+// Special handling for About page article to allow flex reordering on mobile
+article {
+  @media (max-width: 576px) {
+    display: flex;
+    flex-direction: column;
+
+    &>* {
+      order: 10; // Default: push everything to the bottom
+    }
+
+    .clearfix {
+      order: 1; // Content/Bio at the very top
+    }
+
+    .profile {
+      order: 2 !important; // Profile image below bio
+    }
   }
 }
 
