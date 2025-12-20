@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Data Engineer.
+subtitle: 
 
 profile:
   align: right
@@ -25,4 +25,9 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Data engineer specialising in building automated data infrastructure from scratch. Expertise in Python-based ETL development, data pipeline architecture, and system integration. Proven ability to design and deploy production-grade solutions that process hundreds of thousands of records daily whilst maintaining data quality and system reliability.
+# HI! I'M LAURENT
+I currently work as a Data Engineer & Automations Specialist in Seychelles 🏖️🇸🇨
+
+I graduated from Reading University in 2024 with a First Class Honours in Meteorology and Climate. Now I'm working on building AI infrastructure in Seychelles. My blog contains my thoughts on topics in Tech, Machine Learning and Mathematics.
+
+Want to get in touch? Feel free to reach out to me via [Linkedin](https://www.linkedin.com/in/laurentvalentin980) or [email](mailto:LaurentValentin@outlook.com)
