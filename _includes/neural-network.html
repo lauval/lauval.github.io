@@ -362,7 +362,7 @@
         container.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; mouse.active = false; });
 
         init();
-        setTimeout(init, 100); // Ensure correct sizing after layout stabilization
+        setTimeout(init, 0); // Ensure correct sizing after layout stabilization
         updateColors();
         requestAnimationFrame(animate);
     })();
