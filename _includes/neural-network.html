@@ -265,8 +265,17 @@
         function init() {
             width = container.clientWidth;
             height = container.clientHeight;
-            canvas.width = width;
-            canvas.height = height;
+
+            // Fix for high-DPI (Retina) displays
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+
+            // Scale the context so drawing operations use logical pixels
+            ctx.scale(dpr, dpr);
+
+            // Note: We do NOT set canvas.style.width/height here because 
+            // the CSS on #neuralNet (width: 100%; height: 100%) handles the display size.
 
             network = [];
             const layerSpacing = width / (config.layers.length + 1);
