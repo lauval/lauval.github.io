@@ -16,9 +16,7 @@ pagination:
     after: 3 # The number of links after the current page
 ---
 
-<!-- Neural Network -->
-{% include neural-network.html %}
-<!-- End Neural Network -->
+
 
 <!-- <div class="post nn-glass"> -->
 
@@ -28,6 +26,7 @@ pagination:
 {% if blog_name_size > 0 or blog_description_size > 0 %}
 
   <div class="header-bar">
+    {% include neural-network.html %}
     <h1>{{ site.blog_name }}</h1>
     <h2>{{ site.blog_description }}</h2>
   </div>

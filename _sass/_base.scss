@@ -622,6 +622,8 @@ footer.sticky-bottom {
   text-align: center;
   padding-top: 2rem;
   padding-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
 
   h1 {
     background: var(--global-theme-gradient);
