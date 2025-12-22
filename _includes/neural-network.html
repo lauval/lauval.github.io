@@ -352,6 +352,7 @@
         }
 
         window.addEventListener('resize', init);
+        window.addEventListener('load', init);
         container.addEventListener('mousemove', e => {
             const rect = canvas.getBoundingClientRect();
             mouse.x = e.clientX - rect.left;
@@ -361,6 +362,7 @@
         container.addEventListener('mouseleave', () => { mouse.x = -1000; mouse.y = -1000; mouse.active = false; });
 
         init();
+        setTimeout(init, 100); // Ensure correct sizing after layout stabilization
         updateColors();
         requestAnimationFrame(animate);
     })();
