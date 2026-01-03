@@ -12,3 +12,4 @@ node_modules/
 vendor
 .idea
 .venv
+.github/workflow_failures/*
