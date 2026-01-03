@@ -10,23 +10,41 @@ mermaid:
   zoomable: true
 ---
 
-This marks my very first post on my very own, freshly-built website that I somehow put together thanks to the generosity of the the greatest collection of humans out there - the open source community. 
+I recently set up our email stack and I thought I'd share the experience so that other NGOs or students or whoever could set up their own email routing infrastructure for free.
 
-We're going to dive right in.
-This is a practical 'tutorial'? (it isn't really, it's just a collection of thoughts I had as I went through the process for my team's email setup). 
-The only caveat is that it isn't exactly 100% free. We (OCEAN AI) are early-career professionals so we're not exactly swimming in cash, but we *can* afford to buy a domain (in our case @ocean-ai-sey.com). So the only pre-requisite if you're trying to follow along is ownership of a domain. I've always used Cloudflare registrar to purchase mine just because they're a reputable company and there are security benefits you get on the free plan. There have been no issues, to date, but I'm also not outwardly endorsing Cloudflare. So not only would I recommend buying your own domain but I'd also recommend doing your research and weighing your options. There are loads of other providers to choose from, each with their own perks and pros and cons. 
+The only caveat to all of this is that it isn't, technically speaking, 100% free. We (OCEAN AI) are early-career professionals so we're not exactly swimming in cash, but we *can* afford to buy a domain (in our case @ocean-ai-sey.com). 
 
-So without further ado:
+That means that the only pre-requisite, if you're trying to follow along, is ownership of a domain. I've always used Cloudflare registrar to purchase mine just because they're a reputable company and there are security benefits you get on the free plan. There have been no issues, to date, but I'm also not outwardly endorsing Cloudflare. So not only would I recommend buying your own domain but I'd also recommend doing your research and weighing your options. There are loads of other providers to choose from, each with their own perks and pros and cons. 
+
+So without further ado, let's dive right in.
+
+
+---
+<br />
 
 ## THE PROBLEM STATEMENT
-Following a conversation with someone who'd been around the NGO/Blue Economy/Climat Change for a while, I was inspired to reach out to embassies to enquire about funding opportunities in STEM and AI since that's what we're all about at OCEAN AI. But then I thought it would look so much more professional if we were sending emails from a custom domain. My reasoning was that an org looking to disburse funds would feel more at ease entrusting us with their money if we'd at least gone through the effort of presenting ourselves professionally. The only problem is that we didn't have a domain at the time and I didn't want to ask members to pay even 5 dollars out of pocket for Google Workspace, which would have easily covered several needs at once, including cloud storage, real-time collaboration, custom email addresses, etc. So the biggest constraint here is money. We had to do it for free. Luckily, that's entirely possible thanks to Resend and Cloudflare.
+The long story short is that a conversation with a friend inspired me to reach out to embassies to enquire about funding opportunities in STEM and AI (since that's what we're all about at OCEAN AI). 
+
+But then I thought it would look so much more professional if we were sending emails from a custom domain (@ocean-ai.com would have been ideal but someone else already owns it). My reasoning was that an org looking to disburse funds would feel more at ease entrusting us with their money if we'd at least gone through the effort of presenting ourselves professionally. 
+
+The only problem is that we didn't have a domain at the time and I didn't want to ask members to pay even $7 out of pocket for Google Workspace, which would have easily covered several needs at once, including cloud storage, higher limits on the Gemini app, custom email addresses, etc. 
+
+The biggest constraint here is money. 
+We had to do it for free. 
+
+Luckily, that's entirely possible thanks to Resend and Cloudflare.
+
+
+
+---
+<br />
 
 ## THE SOLUTION
 It works like this:
 
-When an email sent to your custom email address e.g. "enquiries@ocean-ai-sey.com" is routed (forwarded) by Cloudflare to your personal email account. 
+When an email sent to your custom email address e.g. "enquiries@ocean-ai-sey.com" it gets routed (forwarded) by Cloudflare to your personal email address. 
 
-You might then type a response through your normal email client (by client I'm referring to the app, the software you use to write and send your email e.g. gmail, outlook, etc.) Once you hit send, Resend handles the delivery of your email FROM your custom address.
+You might then type a response through your normal email client (by client I'm referring to the app - the software you use to write and send your email e.g. gmail, outlook, etc.) Once you hit send, Resend handles the delivery of your email FROM your custom address.
 
 So then you reply from enquiries@ocean-ai-sey.com rather than islander123@gmail.com.
 
@@ -34,42 +52,67 @@ Et voilà! Free email routing to and from your personal email address, through C
 
 The image below is called a mermaid diagram and it illustrates the process as described above.
 
-```mermaid
-flowchart TD
-    classDef cloudflare fill:#F6821F,stroke:#333,stroke-width:2px,color:#fff
-    classDef resend fill:#000,stroke:#333,stroke-width:2px,color:#fff
-    classDef gmail fill:#EA4335,stroke:#333,stroke-width:2px,color:#fff
-    classDef user fill:#4285F4,stroke:#333,stroke-width:2px,color:#fff
-    classDef external fill:#34A853,stroke:#333,stroke-width:2px,color:#fff
+<br />
+![Email Routing Diagram](/assets/img/2026-01-02-email-routing/email-routing-stack.png){: width="100%"}
 
-    %% Nodes
-    EXT[External Sender]:::external
-    CF[Cloudflare Email Routing<br/>DNS + Forwarding]:::cloudflare
-    GMAIL[Gmail Interface<br/>Read & Compose]:::gmail
-    RESEND[Resend SMTP<br/>smtp.resend.com:587]:::resend
-    TEAM[Team Member<br/>@your-domain-name.com]:::user
-    RECIPIENT[External Recipient]:::external
 
-    %% Incoming Email Flow
-    EXT -->|1. Sends to team@your-domain-name.com| CF
-    CF -->|2. Forwards to personal Gmail| GMAIL
-    GMAIL -->|3. Team member reads email| TEAM
 
-    %% Outgoing Email Flow
-    TEAM -->|4. Composes from team@your-domain-name.com| GMAIL
-    GMAIL -->|5. SMTP Auth API Key| RESEND
-    RESEND -->|6. Delivers email| RECIPIENT
-
-    %% DNS Records
-    DNS[DNS Records]:::cloudflare
-    CF -.->|Manages| DNS
-    RESEND -.->|Validates against| DNS
-```
+---
+<br />
 
 ## THE METHOD
 This is a no-code solution.
 It's all clicks and tweaking settings.
-But we'll be skipping some of the mundane setup instructions such as how to sign up to Cloudflare, how to buy a domain from their registrar service, and how to sign up to Resend. Everything else is covered below.
+But we'll be skipping some of the mundane setup instructions such as how to [sign up to Cloudflare](https://dash.cloudflare.com/sign-up?utm_source=email_protection), how to [buy a domain from their registrar service](https://www.cloudflare.com/en-gb/products/registrar/), how to [sign up to Resend](https://resend.com/signup) and how to [set up gmail to send from your custom domain](https://support.google.com/mail/answer/22370?hl=en). Everything else is covered below.
 
-### CLOUDFLARE
-1. Once you own the domain, you'll see it pop up in your dashboard. Click on it.
+<br />
+
+### STEP 1: CLOUDFLARE
+1. Once you're logged in, and have the domain purchased or onboarded, you should see something like the image below. The first thing you're going to do is click on the domain name to go to the domain-specific landing page.
+![Cloudflare Domain](/assets/img/2026-01-02-email-routing/cloudflare-domain-landing-page.png){: width="100%"}
+
+2. Then you'll click on "Email" in the highlighted panel on the left. That will then drop down to a list of 3 options. You're looking for "Email Routing".
+![Domain-Specific Landing Page](/assets/img/2026-01-02-email-routing/domain-specific-landing-page.png){: width="100%"}
+
+3. At that point it's just about navigating to "Routing Rules" (red box) and then clicking on "Create Address". Note that the destination address is the custom/professional email address you want to use. It should end with your domain e.g. enquiries@ocean-ai-sey.com.
+![Configure Addresses](/assets/img/2026-01-02-email-routing/configure-addresses.png){: width="100%"}
+
+And that's it, that's your receiver address set up. 
+
+Now we tackle the sender address.
+
+<br />
+
+### STEP 2: RESEND
+
+1. Add your domain to Resend. This was super easy for me since they had an option to connect to popular providers like Cloudflare. So all I had to do was follow the login steps for Cloudflare and click next a few times and that was it. It took a few minutes (5, maybe?) to verify the domain and add the necessary records.
+![Add Domain](/assets/img/2026-01-02-email-routing/add-domain-to-resend.png){: width="100%"}
+
+2. Create an API Key. Select "Sending Access" under Permissions. Then select your newly added domain (once it's fully authenticated). And that's it! You'll get an API key that you'll need to save somehow. I recommend using a password manager for this (I use Bitwarden). It's NOT safe to store this in your notes app or in a random text file on your computer. API keys are like passwords so be careful to treat them as such.
+![Create API Key](/assets/img/2026-01-02-email-routing/create-api-key.png){: width="100%"}
+
+3. The last step on Resend's side is to navigate to settings and keeping the SMTP settings handy - you'll need them for the gmail setup that's coming up next.
+![SMTP Settings](/assets/img/2026-01-02-email-routing/resend-smtp-details.png){: width="100%"}
+
+<br />
+
+### STEP 3: GMAIL
+All of the high level detail is covered in the [tutorial](https://support.google.com/mail/answer/22370?hl=en) I linked before.
+
+The only thing you need to keep an eye out for is the SMTP settings. 
+
+In the screenshot above, Resend uses a default port of `465`. I recommend keeping it simple and using the Gmail default of `587`. And of course, use your API key as the password.
+
+It should look like this:
+![Gmail SMTP Settings](/assets/img/2026-01-02-email-routing/gmail-smtp-settings.png){: width="100%"}
+
+Once you proceed from here, you'll be asked to confirm your email address.
+
+Since receiver routing is already set up through Cloudflare, the confirmation email will land in your personal inbox.
+
+At that point, you just need to follow the advice in [Google's tutorial](https://support.google.com/mail/answer/22370?hl=en) to ensure you send from your custom address when composing an email. You can also set it to automatically use your custom address when replying to an email sent to that address. 
+It's also possible to set it up so that your custom domain becomes your default sending address when you compose an email. This is only advisable if you don't plan to use your normal Gmail address (e.g. guy123@gmail.com) for correspondence. 
+
+And there you have it. 
+
+100% free, professional, clean email routing to and from your custom domain, working right out of Gmail, as you know and love it 😎
