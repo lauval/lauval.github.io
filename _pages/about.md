@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: 
+subtitle: Mapping Chaos to Code
 
 profile:
   align: right
@@ -20,14 +20,8 @@ announcements:
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: false
+  enabled: true
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
 
-# HI! I'M LAURENT
-I currently work as a Data Engineer & Automations Specialist in Seychelles 🏖️🇸🇨
-
-I graduated from Reading University in 2024 with a First Class Honours in Meteorology and Climate. Now I'm working on building AI infrastructure in Seychelles. My blog contains my thoughts on topics in Tech, Machine Learning and Mathematics.
-
-Want to get in touch? Feel free to reach out to me via [Linkedin](https://www.linkedin.com/in/laurentvalentin980) or [email](mailto:LaurentValentin@outlook.com)
