@@ -22,7 +22,38 @@
 
     <!-- Content -->
     <div class="container mt-5{% if page.layout == 'cv' %} cv-container{% elsif page.layout == 'post' %} post-container{% endif %}" role="main">
-      {% if page.toc and page.toc.sidebar %}
+      {% if page.layout == 'post' %}
+        <div class="post-shell" data-post-shell>
+          <aside class="post-toc" data-post-toc hidden aria-label="Table of contents">
+            <button
+              class="post-toc__toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="post-toc-panel"
+              data-post-toc-toggle
+            >
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+              </svg>
+              <span>Contents</span>
+            </button>
+
+            <div class="post-toc__panel" id="post-toc-panel" data-post-toc-panel hidden>
+              <div class="post-toc__header">
+                <span>Contents</span>
+                <button class="post-toc__close" type="button" aria-label="Close table of contents" data-post-toc-close>
+                  <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18">
+                    <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                  </svg>
+                </button>
+              </div>
+              <nav class="post-toc__nav" data-post-toc-nav aria-label="Sections in this article"></nav>
+            </div>
+          </aside>
+
+          <div class="post-shell__article">{{ content }}</div>
+        </div>
+      {% elsif page.toc and page.toc.sidebar %}
         {% if page.toc.sidebar == 'right' %}
           <div class="row">
             <!-- main content area -->
