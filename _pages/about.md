@@ -26,8 +26,8 @@ latest_posts:
 ---
 
 # HI! I'M LAURENT
-I currently work as a Data Engineer & Automations Specialist in Seychelles 🏖️🇸🇨
+I'm an apsiring ML/AI Engineer, currently working as an Analytics Engineer in Seychelles 🏖️🇸🇨
 
-I graduated from Reading University in 2024 with a First Class Honours in Meteorology and Climate. Now I'm working on building AI infrastructure in Seychelles. My blog contains my thoughts on topics in Tech, Machine Learning and Mathematics.
+I graduated from the University of Reading in 2024 with a First Class Honours in Meteorology and Climate. Now I'm working on building a STEM community in Seychelles. You'll find my thoughts on tech, machine learning and mathematics on the blog page.
 
 Want to get in touch? Feel free to reach out to me via [Linkedin](https://www.linkedin.com/in/laurentvalentin980) or [email](mailto:LaurentValentin@outlook.com)
