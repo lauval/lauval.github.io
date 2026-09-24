@@ -1,7 +1,7 @@
 ---
 layout: post
 title: YOUNG INNOVATORS CHALLENGE WEEK 3 - LOOPS AND DICTIONARIES
-date: 2026-09-23 16:00:00+0400
+date: 2026-09-18 16:00:00+0400
 description: Take control of the game journey with for loops, then give every planet a story with dictionaries.
 tags: young-innovators-challenge loops dictionaries python lists game-development
 categories: documentation
