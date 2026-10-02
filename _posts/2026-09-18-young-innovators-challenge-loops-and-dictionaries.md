@@ -80,7 +80,7 @@ Loops work the same way in that respect. The indentation groups lines together, 
 
 This idea will keep coming back. Functions, loops, conditionals and eventually classes all use blocks of code. Getting comfortable with where a block starts, where it ends and why it's indented is one of the most useful early programming habits you can build.
 
-In our game loop, each pass has a series of jobs: spend oxygen, show the destination, ask the player whether to stop, process what happens there, show the ship's status and check whether the ship has been defeated. When all of those lines sit inside the loop, they happen for every destination. The victory message sits *after* the loop, so it appears only once the journey is complete.
+In our game loop, each pass has a series of jobs: spend oxygen, show the destination, ask the player whether to stop, process what happens there, show the ship's status and check whether the ship has been defeated. When all of those lines sit inside the loop, they happen for every destination. The victory message sits _after_ the loop, so it appears only once the journey is complete.
 
 That's us taking control of the game loop.
 

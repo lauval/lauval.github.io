@@ -113,27 +113,13 @@
       "name": "Programming & Tools",
       "level": "",
       "icon": "fa-solid fa-code",
-      "keywords": [
-        "Python",
-        "SQL",
-        "Git",
-        "Power BI",
-        "Folium",
-        "Excel"
-      ]
+      "keywords": ["Python", "SQL", "Git", "Power BI", "Folium", "Excel"]
     },
     {
       "name": "Core Competencies",
       "level": "",
       "icon": "fa-solid fa-brain",
-      "keywords": [
-        "ETL development",
-        "data pipeline architecture",
-        "data modelling",
-        "automation",
-        "statistical analysis",
-        "geospatial analytics"
-      ]
+      "keywords": ["ETL development", "data pipeline architecture", "data modelling", "automation", "statistical analysis", "geospatial analytics"]
     }
   ],
   "languages": [

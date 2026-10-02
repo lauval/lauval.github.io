@@ -26,6 +26,7 @@ latest_posts:
 ---
 
 # HI! I'M LAURENT
+
 I'm an apsiring ML/AI Engineer, currently working as an Analytics Engineer in Seychelles 🏖️🇸🇨
 
 I graduated from the University of Reading in 2024 with a First Class Honours in Meteorology and Climate. Now I'm working on building a STEM community in Seychelles. You'll find my thoughts on tech, machine learning and mathematics on the blog page.

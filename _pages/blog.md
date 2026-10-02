@@ -16,8 +16,6 @@ pagination:
     after: 3 # The number of links after the current page
 ---
 
-
-
 <!-- <div class="post nn-glass"> -->
 
 {% assign blog_name_size = site.blog_name | size %}

@@ -85,7 +85,7 @@ And that's uv sorted.
 ## 3. INSTALL GIT
 
 git is version control software. It saves snapshots of your code so you can track what changed, go back when something breaks and share your work with other people. Navigate to the download/install page for [git](https://git-scm.com/install), click on the tab for the operating system on your laptop, and follow the instructions. In my case, I'm on Mac so I'll be using the terminal commands to download git. More instructions below:
- 
+
 **Windows:** Download the installer file by clicking on the link that says "Click here to download". Run the installer and accept all the defaults.
 
 **Mac:** Open Terminal and run:
@@ -122,7 +122,7 @@ Pick a username you'd be happy to show a future employer. Your GitHub account be
 
 ## 5. OPEN THE TERMINAL IN VS CODE
 
-From this point on, we'll use the terminal *inside* VS Code instead of keeping a separate terminal window open.
+From this point on, we'll use the terminal _inside_ VS Code instead of keeping a separate terminal window open.
 
 Open VS Code, then:
 
@@ -216,7 +216,7 @@ In the VS Code terminal, make sure you're inside the project folder and then run
 git remote set-url origin https://github.com/YOUR-USERNAME/young-innovators-challenge.git
 ```
 
-This tells git, "when I push my code, send it to *my* repository, not the class one."
+This tells git, "when I push my code, send it to _my_ repository, not the class one."
 
 What I would recommend here is typing out the first part:
 
@@ -225,7 +225,6 @@ git remote set-url origin
 ```
 
 Then, go back to the browser, ensuring you're on the page as seen in the screenshot above, and just copy the url from your browser, see the screenshot below for mine.
-
 
 ![Copying the url from your newly created repo page](/assets/img/2026-08-30-young-innovators-challenge-setup-guide/github-copy-url-for-upstream.png){: width="100%"}
 
@@ -254,12 +253,14 @@ git push
 The first time you push, git may ask you to log in to GitHub. Follow the prompts. It will either open a browser window or ask for a username and token. You can just proceed without changing anything.
 
 You may also be asked to set two values: your email and your name. There's also a chance that these are set for you, automatically. Either way, it's worth copying these commands and editing your name and email. It's a good idea to use the same email as your Github account.
+
 ```
 git config --global user.name "Your Name"
 git config --global user.email "your.email@example.com"
 ```
 
 After editing they may look something like this (these are my credentials, use your own):
+
 ```
 git config --global user.name "Laurent"
 git config --global user.email "laurent@ocean-ai-sey.com"
@@ -276,21 +277,22 @@ And there you have it.
 VS Code, Python, git and GitHub are all set up, the game is running and you have your own copy of the project ready for the rest of the course.
 
 ---
+
 <br />
 
 ## TROUBLESHOOTING
 
 1. **"command not found" when running `uv` or `git`**
-Close your terminal completely and open a new one. The install added the program to your PATH, but your current terminal doesn't know about it yet. On Mac, you can also try running `source ~/.zshrc` or `source ~/.bashrc`.
+   Close your terminal completely and open a new one. The install added the program to your PATH, but your current terminal doesn't know about it yet. On Mac, you can also try running `source ~/.zshrc` or `source ~/.bashrc`.
 
 2. **`uv run game.py` says "No such file or directory"**
-You're not in the right folder. In VS Code, go to **File → Open Folder** and select the `young-innovators-challenge` folder. Then open a new terminal.
+   You're not in the right folder. In VS Code, go to **File → Open Folder** and select the `young-innovators-challenge` folder. Then open a new terminal.
 
 3. **git push asks for a password and rejects it**
-GitHub no longer accepts plain passwords. You'll need to use a personal access token instead. Go to **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)** and generate one. Use that token as your password when git asks.
+   GitHub no longer accepts plain passwords. You'll need to use a personal access token instead. Go to **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)** and generate one. Use that token as your password when git asks.
 
 4. **VS Code feels cramped**
-Close the Agents tab if it's open (the icon on the left sidebar that looks like a sparkle or wand). You can also toggle the Explorer panel with `Ctrl + B` (Windows) or `Cmd + B` (Mac) when you need more room for code.
+   Close the Agents tab if it's open (the icon on the left sidebar that looks like a sparkle or wand). You can also toggle the Explorer panel with `Ctrl + B` (Windows) or `Cmd + B` (Mac) when you need more room for code.
 
 <!-- --- -->
 

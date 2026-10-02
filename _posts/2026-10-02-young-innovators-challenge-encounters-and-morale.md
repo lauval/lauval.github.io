@@ -77,12 +77,12 @@ Notice that we don't need to return the hull value. `ship` refers to the same ob
 
 We then follow the same pattern for the other encounters:
 
-| Class | What happens to the ship? |
-| --- | --- |
-| `AsteroidField` | Takes hull damage based on danger and morale; loses 5 morale. |
-| `Raider` | Takes hull damage based on danger and morale, uses extra oxygen based on morale, and loses 10 morale. |
-| `Trader` | Restores oxygen and hull based on morale; gains 10 morale. |
-| `EmptySpace` | Gives the crew a rest and restores 5 morale. |
+| Class           | What happens to the ship?                                                                             |
+| --------------- | ----------------------------------------------------------------------------------------------------- |
+| `AsteroidField` | Takes hull damage based on danger and morale; loses 5 morale.                                         |
+| `Raider`        | Takes hull damage based on danger and morale, uses extra oxygen based on morale, and loses 10 morale. |
+| `Trader`        | Restores oxygen and hull based on morale; gains 10 morale.                                            |
+| `EmptySpace`    | Gives the crew a rest and restores 5 morale.                                                          |
 
 Every class has a `process(ship)` method. The internal rules differ, but the code using an encounter can call each one in exactly the same way. We don't need [inheritance](https://www.codecademy.com/article/what-is-python-inheritance) to make that work: each class simply provides the method we expect.
 
@@ -144,10 +144,10 @@ For rewards, morale of 80 gives us a multiplier of `0.8`. For damage, that same 
 Here's what that means for a trader's base oxygen refill of 15 and an asteroid field with danger level 3:
 
 | Morale | Trader oxygen refill | Asteroid hull damage |
-| --- | --- | --- |
-| 80 | `int(15 * 0.8)` = 12 | `int(16 * 1.2)` = 19 |
-| 100 | `int(15 * 1.0)` = 15 | `int(16 * 1.0)` = 16 |
-| 120 | `int(15 * 1.2)` = 18 | `int(16 * 0.8)` = 12 |
+| ------ | -------------------- | -------------------- |
+| 80     | `int(15 * 0.8)` = 12 | `int(16 * 1.2)` = 19 |
+| 100    | `int(15 * 1.0)` = 15 | `int(16 * 1.0)` = 16 |
+| 120    | `int(15 * 1.2)` = 18 | `int(16 * 0.8)` = 12 |
 
 `int()` removes the fractional part so our resources change by whole numbers. For example, `19.2` becomes `19`.
 
